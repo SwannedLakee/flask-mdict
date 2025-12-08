@@ -87,8 +87,15 @@ class Index():
         meta['encoding'] = self._encoding
         meta['stylesheet'] = self._stylesheet
         meta['version'] = self._version
-        meta['title'] = self.header[b'Title'].decode(self._encoding)
-        meta['description'] = self.header[b'Title'].decode(self._encoding)
+        try:
+            meta['title'] = self.header[b'Title'].decode(self._encoding)
+        except Exception as err:
+            encoding = 'utf8'
+            print('Error: {}'.format(err))
+            print('Try decode with utf8...')
+            meta['title'] = self.header[b'Title'].decode(encoding)
+
+        meta['description'] = meta['title']
         return {"index_dict_list": index_dict_list, 'meta': meta}
 
     def get_index_v3(self, check_block=False):
