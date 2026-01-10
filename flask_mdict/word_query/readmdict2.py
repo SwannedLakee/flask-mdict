@@ -87,7 +87,7 @@ class Index():
         meta['encoding'] = self._encoding
         meta['stylesheet'] = self._stylesheet
         meta['version'] = self._version
-        meta['title'] = self.header[b'Title'].decode(self._encoding, error='ignore')
+        meta['title'] = self.header[b'Title'].decode(self._encoding, errors='ignore')
         meta['description'] = meta['title']
         return {"index_dict_list": index_dict_list, 'meta': meta}
 
