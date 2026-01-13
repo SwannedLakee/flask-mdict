@@ -288,7 +288,8 @@ def init_mdict(mdict_dir, index_dir=None):
                         os.makedirs(mdict_index_dir)
                 else:
                     mdict_index_dir = None
-                idx = IndexBuilder2(mdx_file, index_dir=mdict_index_dir)
+                force_rebuild = False
+                idx = IndexBuilder2(mdx_file, index_dir=mdict_index_dir, force_rebuild=force_rebuild)
                 if not idx._title or idx._title == 'Title (No HTML code allowed)':
                     title = name
                 else:

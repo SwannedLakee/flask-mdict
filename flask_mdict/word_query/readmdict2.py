@@ -87,7 +87,8 @@ class Index():
         meta['encoding'] = self._encoding
         meta['stylesheet'] = self._stylesheet
         meta['version'] = self._version
-        meta['title'] = self.header[b'Title'].decode(self._encoding, errors='ignore')
+        # key has been decode from UTF-16 and encode again with UTF-8
+        meta['title'] = self.header[b'Title'].decode('utf-8', errors='ignore')
         meta['description'] = meta['title']
         return {"index_dict_list": index_dict_list, 'meta': meta}
 
@@ -145,8 +146,9 @@ class Index():
         meta['encoding'] = self._encoding
         meta['version'] = self._version
         meta['stylesheet'] = self._stylesheet
-        meta['title'] = self.header[b'Title'].decode(self._encoding)
-        meta['description'] = self.header[b'Title'].decode(self._encoding)
+        # key has been decode from UTF-16 and encode again with UTF-8
+        meta['title'] = self.header[b'Title'].decode('utf-8', errors='ignore')
+        meta['description'] = meta['title']
         return {"index_dict_list": index_dict_list, 'meta': meta}
 
 
