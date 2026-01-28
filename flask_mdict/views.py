@@ -365,7 +365,10 @@ def query_word_lite(uuid, word):
             abs_url2 = re.sub(r'(?<!:)//', '/', abs_url)
         return mo.group(1) + abs_url2 + mo.group(3)
 
-    scheme = 'https'
+    if request.is_secure:
+        scheme = 'https'
+    else:
+        scheme = 'http'
     all_result = request.args.get('all_result', '') == 'true'
     fallback = request.args.get('fallback', '').split(',')
     nohistory = request.args.get('nohistory', '') == 'true'

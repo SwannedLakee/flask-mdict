@@ -82,6 +82,7 @@ def cli():
 
     parser.add_argument('--config-file', default='flask_mdict.json', help='app config json file. default: flask_mdict.json')
     parser.add_argument('--debug', action='store_true', help='flask run as debug mode')
+    parser.add_argument('--ssl', help='ssl context: cert.pem:key.pem or adhoc')
     parser.add_argument('--host', help='service listen ip:port')
     parser.add_argument('--mdict-dir', help='mdict dictionary path')
 
@@ -93,12 +94,14 @@ def cli():
 
     if 'server' not in config_data:
         config_data['server'] = {}
+        config_data['server']['ssl_context'] = None
         config_data['server']['ip'] = '127.0.0.1'
         config_data['server']['port'] = '5248'
         config_data['server']['debug'] = False
         config_data['server']['threaded'] = True
         config_data['server']['process'] = 1
 
+    ssl_context = config_data['server'].get('ssl', None)
     ip = config_data['server'].get('ip', '127.0.0.1')
     port = config_data['server'].get('port', '5248')
     debug = config_data['server'].get('debug', False)
@@ -107,6 +110,11 @@ def cli():
 
     if args.host:
         ip, port = args.host.split(':')
+    if args.ssl:
+        if ':' in args.ssl:
+            ssl_context = args.ssl.split(':')
+        else:
+            ssl_context = args.ssl
     if args.debug:
         debug = args.debug
 
@@ -127,8 +135,6 @@ def cli():
 
     app = create_app(config_data['mdict'])
 
-    ssl_context = None
-    # ssl_context = 'adhoc'
     app.run(
         host=ip, port=port, debug=debug,
         ssl_context=ssl_context,
