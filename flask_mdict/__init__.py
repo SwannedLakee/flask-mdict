@@ -62,4 +62,4 @@ def get_db(uuid):
 
 
 # must import at bottom
-from . import helper, views
+from . import helper, views  # noqa
